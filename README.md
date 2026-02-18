@@ -175,47 +175,47 @@ node scripts/dist/cli.js list-accounts
 
 ```bash
 # Check real-time visitors
-node scripts/dist/cli.js run-realtime
+node /Users/USER/node scripts/dist/cli.js run-realtime
 
 # Get last 30 days of e-commerce data
-node scripts/dist/cli.js get-ecommerce --start-date 30daysAgo
+node /Users/USER/node scripts/dist/cli.js get-ecommerce --start-date 30daysAgo
 
 # Top 20 pages this week
-node scripts/dist/cli.js get-pageviews --limit 20
+node /Users/USER/node scripts/dist/cli.js get-pageviews --limit 20
 
 # Custom report: daily sessions and conversions
-node scripts/dist/cli.js run-report --metrics "sessions,conversions" --dimensions "date" --start-date 7daysAgo
+node /Users/USER/node scripts/dist/cli.js run-report --metrics "sessions,conversions" --dimensions "date" --start-date 7daysAgo
 ```
 
 ```bash
 # List verified sites
-node scripts/dist/cli.js sc-list-sites
+node /Users/USER/node scripts/dist/cli.js sc-list-sites
 
 # Top 25 search queries driving traffic
-node scripts/dist/cli.js sc-top-queries --limit 25
+node /Users/USER/node scripts/dist/cli.js sc-top-queries --limit 25
 
 # Check indexing status for a specific page
-node scripts/dist/cli.js sc-indexing-status --url "https://your-company.com/products/YOUR_COMPANY-x1"
+node /Users/USER/node scripts/dist/cli.js sc-indexing-status --url "https://your-company.com/products/YOUR_COMPANY-x1"
 
 # Full URL inspection (indexing, mobile, rich results)
-node scripts/dist/cli.js sc-inspect-url --url "https://your-company.com/"
+node /Users/USER/node scripts/dist/cli.js sc-inspect-url --url "https://your-company.com/"
 
 # Search performance by country
-node scripts/dist/cli.js sc-query-analytics --dimensions "country" --start-date 28daysAgo
+node /Users/USER/node scripts/dist/cli.js sc-query-analytics --dimensions "country" --start-date 28daysAgo
 ```
 
 ```bash
 # Get product feed summary (approved/disapproved/pending counts)
-node scripts/dist/cli.js mc-feed-summary
+node /Users/USER/node scripts/dist/cli.js mc-feed-summary
 
 # List all disapproved products
-node scripts/dist/cli.js mc-disapproved
+node /Users/USER/node scripts/dist/cli.js mc-disapproved
 
 # List all product issues
-node scripts/dist/cli.js mc-issues --limit 50
+node /Users/USER/node scripts/dist/cli.js mc-issues --limit 50
 
 # Get status for specific product
-node scripts/dist/cli.js mc-product-status --product-id "online:en:GB:YOUR_COMPANY-X1"
+node /Users/USER/node scripts/dist/cli.js mc-product-status --product-id "online:en:GB:YOUR_COMPANY-X1"
 ```
 
 ## How It Works

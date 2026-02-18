@@ -17,11 +17,11 @@ You analyze website traffic, e-commerce performance, SEO metrics, and product fe
 ## Available Tools
 
 You interact with Google Analytics using the CLI scripts via Bash. The CLI is located at:
-`/home/USER/.claude/plugins/local-marketplace/google-analytics-manager/scripts/dist/cli.js`
+`/Users/USER/.claude/plugins/local-marketplace/google-analytics-manager/scripts/dist/cli.js`
 
 Run commands using:
 ```bash
-node /home/USER/.claude/plugins/local-marketplace/google-analytics-manager/scripts/dist/cli.js <command> [options]
+node /Users/USER/.claude/plugins/local-marketplace/google-analytics-manager/scripts/dist/cli.js <command> [options]
 ```
 
 ### Account/Property Commands
@@ -137,51 +137,51 @@ node /home/USER/.claude/plugins/local-marketplace/google-analytics-manager/scrip
 
 ```bash
 # Check real-time visitors
-node /home/USER/.claude/plugins/local-marketplace/google-analytics-manager/scripts/dist/cli.js run-realtime
+node /Users/USER/.claude/plugins/local-marketplace/google-analytics-manager/scripts/dist/cli.js run-realtime
 
 # Get last 30 days of e-commerce data
-node /home/USER/.claude/plugins/local-marketplace/google-analytics-manager/scripts/dist/cli.js get-ecommerce --start-date 30daysAgo
+node /Users/USER/.claude/plugins/local-marketplace/google-analytics-manager/scripts/dist/cli.js get-ecommerce --start-date 30daysAgo
 
 # Top 20 pages this week
-node /home/USER/.claude/plugins/local-marketplace/google-analytics-manager/scripts/dist/cli.js get-pageviews --limit 20
+node /Users/USER/.claude/plugins/local-marketplace/google-analytics-manager/scripts/dist/cli.js get-pageviews --limit 20
 
 # Custom report: daily sessions and conversions
-node /home/USER/.claude/plugins/local-marketplace/google-analytics-manager/scripts/dist/cli.js run-report --metrics "sessions,conversions" --dimensions "date" --start-date 7daysAgo
+node /Users/USER/.claude/plugins/local-marketplace/google-analytics-manager/scripts/dist/cli.js run-report --metrics "sessions,conversions" --dimensions "date" --start-date 7daysAgo
 ```
 
 ### Google Search Console
 
 ```bash
 # List verified sites
-node /home/USER/.claude/plugins/local-marketplace/google-analytics-manager/scripts/dist/cli.js sc-list-sites
+node /Users/USER/.claude/plugins/local-marketplace/google-analytics-manager/scripts/dist/cli.js sc-list-sites
 
 # Top 25 search queries driving traffic
-node /home/USER/.claude/plugins/local-marketplace/google-analytics-manager/scripts/dist/cli.js sc-top-queries --limit 25
+node /Users/USER/.claude/plugins/local-marketplace/google-analytics-manager/scripts/dist/cli.js sc-top-queries --limit 25
 
 # Check indexing status for a specific page
-node /home/USER/.claude/plugins/local-marketplace/google-analytics-manager/scripts/dist/cli.js sc-indexing-status --url "https://your-company.com/products/YOUR_COMPANY-x1"
+node /Users/USER/.claude/plugins/local-marketplace/google-analytics-manager/scripts/dist/cli.js sc-indexing-status --url "https://your-company.com/products/YOUR_COMPANY-x1"
 
 # Full URL inspection (indexing, mobile, rich results)
-node /home/USER/.claude/plugins/local-marketplace/google-analytics-manager/scripts/dist/cli.js sc-inspect-url --url "https://your-company.com/"
+node /Users/USER/.claude/plugins/local-marketplace/google-analytics-manager/scripts/dist/cli.js sc-inspect-url --url "https://your-company.com/"
 
 # Search performance by country
-node /home/USER/.claude/plugins/local-marketplace/google-analytics-manager/scripts/dist/cli.js sc-query-analytics --dimensions "country" --start-date 28daysAgo
+node /Users/USER/.claude/plugins/local-marketplace/google-analytics-manager/scripts/dist/cli.js sc-query-analytics --dimensions "country" --start-date 28daysAgo
 ```
 
 ### Google Merchant Center
 
 ```bash
 # Get product feed summary (approved/disapproved/pending counts)
-node /home/USER/.claude/plugins/local-marketplace/google-analytics-manager/scripts/dist/cli.js mc-feed-summary
+node /Users/USER/.claude/plugins/local-marketplace/google-analytics-manager/scripts/dist/cli.js mc-feed-summary
 
 # List all disapproved products
-node /home/USER/.claude/plugins/local-marketplace/google-analytics-manager/scripts/dist/cli.js mc-disapproved
+node /Users/USER/.claude/plugins/local-marketplace/google-analytics-manager/scripts/dist/cli.js mc-disapproved
 
 # List all product issues
-node /home/USER/.claude/plugins/local-marketplace/google-analytics-manager/scripts/dist/cli.js mc-issues --limit 50
+node /Users/USER/.claude/plugins/local-marketplace/google-analytics-manager/scripts/dist/cli.js mc-issues --limit 50
 
 # Get status for specific product
-node /home/USER/.claude/plugins/local-marketplace/google-analytics-manager/scripts/dist/cli.js mc-product-status --product-id "online:en:GB:YOUR_COMPANY-X1"
+node /Users/USER/.claude/plugins/local-marketplace/google-analytics-manager/scripts/dist/cli.js mc-product-status --product-id "online:en:GB:YOUR_COMPANY-X1"
 ```
 
 ## Common Metrics
@@ -368,6 +368,6 @@ Find your Merchant ID at the top-left of your [Merchant Center dashboard](https:
 **Note:** Requires Node.js 18+ (uses native fetch API).
 
 ## Self-Documentation
-Log API quirks/errors to: `/home/USER/biz/plugin-learnings/google-analytics-manager.md`
+Log API quirks/errors to: `/Users/USER/biz/plugin-learnings/google-analytics-manager.md`
 Format: `### [YYYY-MM-DD] [ISSUE|DISCOVERY] Brief desc` with Context/Problem/Resolution fields.
 Full workflow: `~/biz/docs/reference/agent-shared-context.md`
