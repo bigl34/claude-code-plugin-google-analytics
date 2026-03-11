@@ -1,7 +1,7 @@
 <!-- AUTO-GENERATED README — DO NOT EDIT. Changes will be overwritten on next publish. -->
 # claude-code-plugin-google-analytics
 
-Google Analytics 4, Search Console, and Merchant Center for YOUR_COMPANY website
+Google Analytics 4, Search Console, and Merchant Center plugin for Claude Code
 
 ![Version](https://img.shields.io/badge/version-1.3.8-blue) ![License: MIT](https://img.shields.io/badge/License-MIT-green) ![Node >= 18](https://img.shields.io/badge/node-%3E%3D18-brightgreen)
 
@@ -53,7 +53,7 @@ Google Analytics 4, Search Console, and Merchant Center for YOUR_COMPANY website
 ## Quick Start
 
 ```bash
-git clone https://github.com/YOUR_GITHUB_USER/claude-code-plugin-google-analytics.git
+git clone https://github.com/bigl34/claude-code-plugin-google-analytics.git
 cd claude-code-plugin-google-analytics
 cp config.template.json config.json  # fill in your credentials
 cd scripts && npm install
@@ -203,7 +203,7 @@ node /Users/USER/node scripts/dist/cli.js sc-list-sites
 node /Users/USER/node scripts/dist/cli.js sc-top-queries --limit 25
 
 # Check indexing status for a specific page
-node /Users/USER/node scripts/dist/cli.js sc-indexing-status --url "https://your-company.com/products/YOUR_COMPANY-x1"
+node /Users/USER/node scripts/dist/cli.js sc-indexing-status --url "https://your-company.com/products/example-product"
 
 # Full URL inspection (indexing, mobile, rich results)
 node /Users/USER/node scripts/dist/cli.js sc-inspect-url --url "https://your-company.com/"
@@ -223,7 +223,7 @@ node /Users/USER/node scripts/dist/cli.js mc-disapproved
 node /Users/USER/node scripts/dist/cli.js mc-issues --limit 50
 
 # Get status for specific product
-node /Users/USER/node scripts/dist/cli.js mc-product-status --product-id "online:en:GB:YOUR_COMPANY-X1"
+node /Users/USER/node scripts/dist/cli.js mc-product-status --product-id "online:en:GB:example-product-x1"
 ```
 
 ## How It Works
