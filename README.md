@@ -1,9 +1,9 @@
 <!-- AUTO-GENERATED README — DO NOT EDIT. Changes will be overwritten on next publish. -->
 # claude-code-plugin-google-analytics
 
-Google Analytics 4, Search Console, and Merchant Center plugin for Claude Code
+Google Analytics 4, Search Console, and Merchant Center for YOUR_COMPANY website
 
-![Version](https://img.shields.io/badge/version-1.3.8-blue) ![License: MIT](https://img.shields.io/badge/License-MIT-green) ![Node >= 18](https://img.shields.io/badge/node-%3E%3D18-brightgreen)
+![Version](https://img.shields.io/badge/version-1.4.0-blue) ![License: MIT](https://img.shields.io/badge/License-MIT-green) ![Node >= 18](https://img.shields.io/badge/node-%3E%3D18-brightgreen)
 
 ## Features
 
@@ -71,14 +71,6 @@ node scripts/dist/cli.js list-accounts
    ```bash
    cd scripts && npm install
    ```
-
-## Configuration
-
-Copy `config.template.json` to `config.json` and fill in the required values:
-
-| Field | Placeholder |
-|-------|-------------|
-| `credentials_path` | `/path/to/your/credentials` |
 
 ## Available Commands
 
@@ -183,47 +175,47 @@ Copy `config.template.json` to `config.json` and fill in the required values:
 
 ```bash
 # Check real-time visitors
-node /Users/USER/node scripts/dist/cli.js run-realtime
+node $HOME/node scripts/dist/cli.js run-realtime
 
 # Get last 30 days of e-commerce data
-node /Users/USER/node scripts/dist/cli.js get-ecommerce --start-date 30daysAgo
+node $HOME/node scripts/dist/cli.js get-ecommerce --start-date 30daysAgo
 
 # Top 20 pages this week
-node /Users/USER/node scripts/dist/cli.js get-pageviews --limit 20
+node $HOME/node scripts/dist/cli.js get-pageviews --limit 20
 
 # Custom report: daily sessions and conversions
-node /Users/USER/node scripts/dist/cli.js run-report --metrics "sessions,conversions" --dimensions "date" --start-date 7daysAgo
+node $HOME/node scripts/dist/cli.js run-report --metrics "sessions,conversions" --dimensions "date" --start-date 7daysAgo
 ```
 
 ```bash
 # List verified sites
-node /Users/USER/node scripts/dist/cli.js sc-list-sites
+node $HOME/node scripts/dist/cli.js sc-list-sites
 
 # Top 25 search queries driving traffic
-node /Users/USER/node scripts/dist/cli.js sc-top-queries --limit 25
+node $HOME/node scripts/dist/cli.js sc-top-queries --limit 25
 
 # Check indexing status for a specific page
-node /Users/USER/node scripts/dist/cli.js sc-indexing-status --url "https://your-company.com/products/example-product"
+node $HOME/node scripts/dist/cli.js sc-indexing-status --url "https://your-company.com/products/YOUR_COMPANY-x1"
 
 # Full URL inspection (indexing, mobile, rich results)
-node /Users/USER/node scripts/dist/cli.js sc-inspect-url --url "https://your-company.com/"
+node $HOME/node scripts/dist/cli.js sc-inspect-url --url "https://your-company.com/"
 
 # Search performance by country
-node /Users/USER/node scripts/dist/cli.js sc-query-analytics --dimensions "country" --start-date 28daysAgo
+node $HOME/node scripts/dist/cli.js sc-query-analytics --dimensions "country" --start-date 28daysAgo
 ```
 
 ```bash
 # Get product feed summary (approved/disapproved/pending counts)
-node /Users/USER/node scripts/dist/cli.js mc-feed-summary
+node $HOME/node scripts/dist/cli.js mc-feed-summary
 
 # List all disapproved products
-node /Users/USER/node scripts/dist/cli.js mc-disapproved
+node $HOME/node scripts/dist/cli.js mc-disapproved
 
 # List all product issues
-node /Users/USER/node scripts/dist/cli.js mc-issues --limit 50
+node $HOME/node scripts/dist/cli.js mc-issues --limit 50
 
 # Get status for specific product
-node /Users/USER/node scripts/dist/cli.js mc-product-status --product-id "online:en:GB:example-product-x1"
+node $HOME/node scripts/dist/cli.js mc-product-status --product-id "online:en:GB:YOUR_COMPANY-X1"
 ```
 
 ## How It Works
