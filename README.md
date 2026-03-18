@@ -1,9 +1,9 @@
 <!-- AUTO-GENERATED README — DO NOT EDIT. Changes will be overwritten on next publish. -->
 # claude-code-plugin-google-analytics
 
-Google Analytics 4, Search Console, and Merchant Center for YOUR_COMPANY website
+Google Analytics 4, Search Console, and Merchant Center integration
 
-![Version](https://img.shields.io/badge/version-1.4.0-blue) ![License: MIT](https://img.shields.io/badge/License-MIT-green) ![Node >= 18](https://img.shields.io/badge/node-%3E%3D18-brightgreen)
+![Version](https://img.shields.io/badge/version-1.4.1-blue) ![License: MIT](https://img.shields.io/badge/License-MIT-green) ![Node >= 18](https://img.shields.io/badge/node-%3E%3D18-brightgreen)
 
 ## Features
 
@@ -53,7 +53,7 @@ Google Analytics 4, Search Console, and Merchant Center for YOUR_COMPANY website
 ## Quick Start
 
 ```bash
-git clone https://github.com/YOUR_GITHUB_USER/claude-code-plugin-google-analytics.git
+git clone https://github.com/bigl34/claude-code-plugin-google-analytics.git
 cd claude-code-plugin-google-analytics
 cp config.template.json config.json  # fill in your credentials
 cd scripts && npm install
