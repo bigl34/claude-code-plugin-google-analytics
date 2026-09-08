@@ -3,7 +3,7 @@
 
 Google Analytics 4, Search Console, and Merchant Center integration
 
-![Version](https://img.shields.io/badge/version-1.4.1-blue) ![License: MIT](https://img.shields.io/badge/License-MIT-green) ![Node >= 18](https://img.shields.io/badge/node-%3E%3D18-brightgreen)
+![Version](https://img.shields.io/badge/version-1.5.0-blue) ![License: MIT](https://img.shields.io/badge/License-MIT-green) ![Node >= 18](https://img.shields.io/badge/node-%3E%3D18-brightgreen)
 
 ## Features
 
@@ -56,11 +56,11 @@ Google Analytics 4, Search Console, and Merchant Center integration
 git clone https://github.com/bigl34/claude-code-plugin-google-analytics.git
 cd claude-code-plugin-google-analytics
 cp config.template.json config.json  # fill in your credentials
-cd scripts && npm install
+npm --prefix scripts install
 ```
 
 ```bash
-node scripts/dist/cli.js list-accounts
+npm --prefix scripts run cli -- list-accounts
 ```
 
 ## Installation
@@ -71,6 +71,14 @@ node scripts/dist/cli.js list-accounts
    ```bash
    cd scripts && npm install
    ```
+
+## Configuration
+
+Copy `config.template.json` to `config.json` and fill in the required values:
+
+| Field | Placeholder |
+|-------|-------------|
+| `credentials_path` | `/path/to/your/credentials` |
 
 ## Available Commands
 
@@ -175,47 +183,47 @@ node scripts/dist/cli.js list-accounts
 
 ```bash
 # Check real-time visitors
-node $HOME/node scripts/dist/cli.js run-realtime
+npm --prefix "scripts" run cli -- run-realtime
 
 # Get last 30 days of e-commerce data
-node $HOME/node scripts/dist/cli.js get-ecommerce --start-date 30daysAgo
+npm --prefix "scripts" run cli -- get-ecommerce --start-date 30daysAgo
 
 # Top 20 pages this week
-node $HOME/node scripts/dist/cli.js get-pageviews --limit 20
+npm --prefix "scripts" run cli -- get-pageviews --limit 20
 
 # Custom report: daily sessions and conversions
-node $HOME/node scripts/dist/cli.js run-report --metrics "sessions,conversions" --dimensions "date" --start-date 7daysAgo
+npm --prefix "scripts" run cli -- run-report --metrics "sessions,conversions" --dimensions "date" --start-date 7daysAgo
 ```
 
 ```bash
 # List verified sites
-node $HOME/node scripts/dist/cli.js sc-list-sites
+npm --prefix "scripts" run cli -- sc-list-sites
 
 # Top 25 search queries driving traffic
-node $HOME/node scripts/dist/cli.js sc-top-queries --limit 25
+npm --prefix "scripts" run cli -- sc-top-queries --limit 25
 
 # Check indexing status for a specific page
-node $HOME/node scripts/dist/cli.js sc-indexing-status --url "https://your-company.com/products/YOUR_COMPANY-x1"
+npm --prefix "scripts" run cli -- sc-indexing-status --url "https://your-company.com/products/YOUR_COMPANY-x1"
 
 # Full URL inspection (indexing, mobile, rich results)
-node $HOME/node scripts/dist/cli.js sc-inspect-url --url "https://your-company.com/"
+npm --prefix "scripts" run cli -- sc-inspect-url --url "https://your-company.com/"
 
 # Search performance by country
-node $HOME/node scripts/dist/cli.js sc-query-analytics --dimensions "country" --start-date 28daysAgo
+npm --prefix "scripts" run cli -- sc-query-analytics --dimensions "country" --start-date 28daysAgo
 ```
 
 ```bash
 # Get product feed summary (approved/disapproved/pending counts)
-node $HOME/node scripts/dist/cli.js mc-feed-summary
+npm --prefix "scripts" run cli -- mc-feed-summary
 
 # List all disapproved products
-node $HOME/node scripts/dist/cli.js mc-disapproved
+npm --prefix "scripts" run cli -- mc-disapproved
 
 # List all product issues
-node $HOME/node scripts/dist/cli.js mc-issues --limit 50
+npm --prefix "scripts" run cli -- mc-issues --limit 50
 
 # Get status for specific product
-node $HOME/node scripts/dist/cli.js mc-product-status --product-id "online:en:GB:YOUR_COMPANY-X1"
+npm --prefix "scripts" run cli -- mc-product-status --product-id "online:en:GB:YOUR_COMPANY-X1"
 ```
 
 ## How It Works

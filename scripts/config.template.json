@@ -1,0 +1,13 @@
+{
+  "userEmail": "you@example.com",
+  "googleAnalytics": {
+    "credentialsDir": "/absolute/path/to/google-analytics-credentials",
+    "defaultPropertyId": "YOUR_GA4_PROPERTY_ID"
+  },
+  "searchConsole": {
+    "defaultSiteUrl": "https://your-domain.example.com/"
+  },
+  "merchantCenter": {
+    "merchantId": "YOUR_MERCHANT_CENTER_ID"
+  }
+}

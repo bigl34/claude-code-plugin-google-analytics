@@ -1,16 +1,10 @@
 #!/usr/bin/env npx tsx
-/**
- * Google Analytics & Marketing CLI
- *
- * Zod-validated CLI for GA4, Search Console, and Merchant Center.
- */
 
 import { z, createCommand, runCli, cliTypes } from "@local/cli-utils";
 import { GoogleAnalyticsClient } from "./analytics-client.js";
 import { SearchConsoleClient } from "./search-console-client.js";
 import { MerchantCenterClient } from "./merchant-center-client.js";
 
-// Wrapper class to hold all three clients
 class GoogleMarketingClients {
   ga: GoogleAnalyticsClient;
   sc: SearchConsoleClient;
@@ -35,9 +29,30 @@ class GoogleMarketingClients {
   }
 }
 
-// Define commands with Zod schemas
+const dimensionFilterSchema = z.string().transform((raw, ctx) => {
+  let parsed: unknown;
+  try {
+    parsed = JSON.parse(raw);
+  } catch {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      message: "dimensionFilter must be valid JSON",
+    });
+    return z.NEVER;
+  }
+
+  if (parsed === null || Array.isArray(parsed) || typeof parsed !== "object") {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      message: "dimensionFilter must be a JSON object",
+    });
+    return z.NEVER;
+  }
+
+  return parsed as Record<string, unknown>;
+});
+
 const commands = {
-  // ==================== Cache Commands ====================
   "cache-stats": createCommand(
     z.object({}),
     async (_args, clients: GoogleMarketingClients) => ({
@@ -45,7 +60,8 @@ const commands = {
       sc: clients.sc.getCacheStats(),
       mc: clients.mc.getCacheStats(),
     }),
-    "Show cache statistics"
+    "Show cache statistics",
+    { sideEffect: "read" }
   ),
 
   "cache-clear": createCommand(
@@ -58,7 +74,8 @@ const commands = {
         mc: clients.mc.clearCache(),
       },
     }),
-    "Clear all cached data"
+    "Clear all cached data",
+    { sideEffect: "write" }
   ),
 
   "cache-invalidate": createCommand(
@@ -75,7 +92,8 @@ const commands = {
         key,
       };
     },
-    "Invalidate a specific cache key"
+    "Invalidate a specific cache key",
+    { sideEffect: "write" }
   ),
 
   "list-tools": createCommand(
@@ -85,14 +103,15 @@ const commands = {
       sc: clients.sc.getTools(),
       mc: clients.mc.getTools(),
     }),
-    "List all available commands"
+    "List all available commands",
+    { sideEffect: "read" }
   ),
 
-  // ==================== GA4: Account/Property Commands ====================
   "list-accounts": createCommand(
     z.object({}),
     async (_args, clients: GoogleMarketingClients) => clients.ga.listAccounts(),
-    "List all GA4 accounts"
+    "List all GA4 accounts",
+    { sideEffect: "read" }
   ),
 
   "list-properties": createCommand(
@@ -102,7 +121,8 @@ const commands = {
     async (args, clients: GoogleMarketingClients) => {
       return clients.ga.listProperties(args.account as string | undefined);
     },
-    "List GA4 properties"
+    "List GA4 properties",
+    { sideEffect: "read" }
   ),
 
   "get-property": createCommand(
@@ -112,7 +132,8 @@ const commands = {
     async (args, clients: GoogleMarketingClients) => {
       return clients.ga.getProperty(args.property as string);
     },
-    "Get property details"
+    "Get property details",
+    { sideEffect: "read" }
   ),
 
   "list-datastreams": createCommand(
@@ -122,10 +143,10 @@ const commands = {
     async (args, clients: GoogleMarketingClients) => {
       return clients.ga.listDataStreams(args.property as string);
     },
-    "List data streams for a property"
+    "List data streams for a property",
+    { sideEffect: "read" }
   ),
 
-  // ==================== GA4: Report Commands ====================
   "run-report": createCommand(
     z.object({
       property: z.string().optional().describe("GA4 property ID"),
@@ -135,19 +156,11 @@ const commands = {
       endDate: z.string().optional().describe("End date (YYYY-MM-DD or 'today')"),
       limit: cliTypes.int(1, 100000).optional().describe("Max rows to return"),
       offset: cliTypes.int(0).optional().describe("Row offset for pagination"),
-      dimensionFilter: z.string().optional().describe("Dimension filter as JSON"),
+      dimensionFilter: dimensionFilterSchema.optional().describe("Dimension filter as JSON"),
       orderBy: z.string().optional().describe("Metric to sort by"),
       orderDesc: z.boolean().optional().describe("Sort descending (default: true)"),
     }),
     async (args, clients: GoogleMarketingClients) => {
-      let dimensionFilter;
-      if (args.dimensionFilter) {
-        try {
-          dimensionFilter = JSON.parse(args.dimensionFilter as string);
-        } catch {
-          dimensionFilter = args.dimensionFilter;
-        }
-      }
       return clients.ga.runReport({
         propertyId: args.property as string | undefined,
         metrics: (args.metrics as string).split(",").map((m) => m.trim()),
@@ -158,12 +171,13 @@ const commands = {
         endDate: (args.endDate as string | undefined) || "today",
         limit: args.limit as number | undefined,
         offset: args.offset as number | undefined,
-        dimensionFilter,
+        dimensionFilter: args.dimensionFilter as Record<string, unknown> | undefined,
         orderBy: args.orderBy as string | undefined,
         orderDesc: args.orderDesc !== false,
       });
     },
-    "Run a custom GA4 report"
+    "Run a custom GA4 report",
+    { sideEffect: "read" }
   ),
 
   "run-realtime": createCommand(
@@ -181,7 +195,8 @@ const commands = {
           : undefined,
       });
     },
-    "Get real-time data (last 30 minutes)"
+    "Get real-time data (last 30 minutes)",
+    { sideEffect: "read" }
   ),
 
   "get-metadata": createCommand(
@@ -191,10 +206,10 @@ const commands = {
     async (args, clients: GoogleMarketingClients) => {
       return clients.ga.getMetadata(args.property as string | undefined);
     },
-    "Get available metrics and dimensions"
+    "Get available metrics and dimensions",
+    { sideEffect: "read" }
   ),
 
-  // ==================== GA4: Quick Report Commands ====================
   "get-active-users": createCommand(
     z.object({
       property: z.string().optional().describe("GA4 property ID"),
@@ -208,7 +223,8 @@ const commands = {
         endDate: args.endDate as string | undefined,
       });
     },
-    "Active/new users and sessions"
+    "Active/new users and sessions",
+    { sideEffect: "read" }
   ),
 
   "get-pageviews": createCommand(
@@ -226,7 +242,8 @@ const commands = {
         limit: args.limit as number | undefined,
       });
     },
-    "Top pages by views"
+    "Top pages by views",
+    { sideEffect: "read" }
   ),
 
   "get-traffic-sources": createCommand(
@@ -242,7 +259,8 @@ const commands = {
         endDate: args.endDate as string | undefined,
       });
     },
-    "Traffic source breakdown"
+    "Traffic source breakdown",
+    { sideEffect: "read" }
   ),
 
   "get-devices": createCommand(
@@ -258,7 +276,8 @@ const commands = {
         endDate: args.endDate as string | undefined,
       });
     },
-    "Device/browser breakdown"
+    "Device/browser breakdown",
+    { sideEffect: "read" }
   ),
 
   "get-ecommerce": createCommand(
@@ -274,7 +293,8 @@ const commands = {
         endDate: args.endDate as string | undefined,
       });
     },
-    "E-commerce overview (purchases, revenue)"
+    "E-commerce overview (purchases, revenue)",
+    { sideEffect: "read" }
   ),
 
   "get-top-products": createCommand(
@@ -292,7 +312,8 @@ const commands = {
         limit: args.limit as number | undefined,
       });
     },
-    "Top products by revenue"
+    "Top products by revenue",
+    { sideEffect: "read" }
   ),
 
   "get-geography": createCommand(
@@ -310,14 +331,15 @@ const commands = {
         limit: args.limit as number | undefined,
       });
     },
-    "Geographic breakdown (country, city)"
+    "Geographic breakdown (country, city)",
+    { sideEffect: "read" }
   ),
 
-  // ==================== Search Console Commands ====================
   "sc-list-sites": createCommand(
     z.object({}),
     async (_args, clients: GoogleMarketingClients) => clients.sc.listSites(),
-    "List verified Search Console sites"
+    "List verified Search Console sites",
+    { sideEffect: "read" }
   ),
 
   "sc-search-performance": createCommand(
@@ -335,7 +357,8 @@ const commands = {
         type: args.type as any,
       });
     },
-    "Search performance overview"
+    "Search performance overview",
+    { sideEffect: "read" }
   ),
 
   "sc-top-queries": createCommand(
@@ -355,7 +378,8 @@ const commands = {
         type: args.type as any,
       });
     },
-    "Top search queries driving traffic"
+    "Top search queries driving traffic",
+    { sideEffect: "read" }
   ),
 
   "sc-top-pages": createCommand(
@@ -375,7 +399,8 @@ const commands = {
         type: args.type as any,
       });
     },
-    "Top pages by search performance"
+    "Top pages by search performance",
+    { sideEffect: "read" }
   ),
 
   "sc-query-analytics": createCommand(
@@ -401,7 +426,8 @@ const commands = {
         startRow: args.offset as number | undefined,
       });
     },
-    "Custom search analytics query"
+    "Custom search analytics query",
+    { sideEffect: "read" }
   ),
 
   "sc-inspect-url": createCommand(
@@ -415,7 +441,8 @@ const commands = {
         siteUrl: args.site as string | undefined,
       });
     },
-    "Full URL inspection (indexing, mobile, rich results)"
+    "Full URL inspection (indexing, mobile, rich results)",
+    { sideEffect: "read" }
   ),
 
   "sc-indexing-status": createCommand(
@@ -429,19 +456,20 @@ const commands = {
         siteUrl: args.site as string | undefined,
       });
     },
-    "Simplified indexing status check"
+    "Simplified indexing status check",
+    { sideEffect: "read" }
   ),
 
-  // ==================== Merchant Center Commands ====================
   "mc-feed-summary": createCommand(
     z.object({}),
     async (_args, clients: GoogleMarketingClients) => clients.mc.getFeedSummary(),
-    "Product feed status overview"
+    "Product feed status overview",
+    { sideEffect: "read" }
   ),
 
   "mc-list-products": createCommand(
     z.object({
-      limit: cliTypes.int(1, 250).optional().describe("Page size"),
+      limit: cliTypes.int(1, 1000).optional().describe("Page size"),
       pageToken: z.string().optional().describe("Pagination token"),
     }),
     async (args, clients: GoogleMarketingClients) => {
@@ -450,7 +478,8 @@ const commands = {
         pageToken: args.pageToken as string | undefined,
       });
     },
-    "List all product statuses (paginated)"
+    "List all product statuses (paginated)",
+    { sideEffect: "read" }
   ),
 
   "mc-product-status": createCommand(
@@ -460,7 +489,8 @@ const commands = {
     async (args, clients: GoogleMarketingClients) => {
       return clients.mc.getProductStatus(args.productId as string);
     },
-    "Get status for a specific product"
+    "Get status for a specific product",
+    { sideEffect: "read" }
   ),
 
   "mc-disapproved": createCommand(
@@ -470,7 +500,8 @@ const commands = {
     async (args, clients: GoogleMarketingClients) => {
       return clients.mc.getDisapprovedProducts(args.limit as number | undefined);
     },
-    "List disapproved products"
+    "List disapproved products",
+    { sideEffect: "read" }
   ),
 
   "mc-issues": createCommand(
@@ -480,11 +511,45 @@ const commands = {
     async (args, clients: GoogleMarketingClients) => {
       return clients.mc.getProductIssues(args.limit as number | undefined);
     },
-    "List all product issues"
+    "List all product issues",
+    { sideEffect: "read" }
+  ),
+
+  "mc-list-data-sources": createCommand(
+    z.object({
+      limit: cliTypes.int(1, 1000).optional().describe("Page size"),
+      pageToken: z.string().optional().describe("Pagination token"),
+    }),
+    async (args, clients: GoogleMarketingClients) => {
+      return clients.mc.listDataSources({
+        pageSize: args.limit as number | undefined,
+        pageToken: args.pageToken as string | undefined,
+      });
+    },
+    "List data sources with latest file upload status",
+    { sideEffect: "read" }
+  ),
+
+  "mc-account-issues": createCommand(
+    z.object({
+      limit: cliTypes.int(1, 100).optional().describe("Page size"),
+      pageToken: z.string().optional().describe("Pagination token"),
+      languageCode: z.string().optional().describe("BMODEL_CODE7 language code"),
+      timeZone: z.string().optional().describe("IANA time zone"),
+    }),
+    async (args, clients: GoogleMarketingClients) => {
+      return clients.mc.listAccountIssues({
+        pageSize: args.limit as number | undefined,
+        pageToken: args.pageToken as string | undefined,
+        languageCode: args.languageCode as string | undefined,
+        timeZone: args.timeZone as string | undefined,
+      });
+    },
+    "List account-level Merchant Center issues",
+    { sideEffect: "read" }
   ),
 };
 
-// Run CLI
 runCli(commands, GoogleMarketingClients, {
   programName: "ga-cli",
   description: "Google Analytics, Search Console, and Merchant Center",
