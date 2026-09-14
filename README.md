@@ -3,7 +3,7 @@
 
 Google Analytics 4, Search Console, and Merchant Center integration
 
-![Version](https://img.shields.io/badge/version-1.5.0-blue) ![License: MIT](https://img.shields.io/badge/License-MIT-green) ![Node >= 18](https://img.shields.io/badge/node-%3E%3D18-brightgreen)
+![Version](https://img.shields.io/badge/version-1.5.1-blue) ![License: MIT](https://img.shields.io/badge/License-MIT-green) ![Node >= 18](https://img.shields.io/badge/node-%3E%3D18-brightgreen)
 
 ## Features
 
@@ -55,7 +55,7 @@ Google Analytics 4, Search Console, and Merchant Center integration
 ```bash
 git clone https://github.com/bigl34/claude-code-plugin-google-analytics.git
 cd claude-code-plugin-google-analytics
-cp config.template.json config.json  # fill in your credentials
+cp scripts/config.template.json scripts/config.json  # fill in your credentials
 npm --prefix scripts install
 ```
 
@@ -66,7 +66,7 @@ npm --prefix scripts run cli -- list-accounts
 ## Installation
 
 1. Clone this repository
-2. Copy `config.template.json` to `config.json` and fill in your credentials
+2. Copy `scripts/config.template.json` to `scripts/config.json` and fill in your credentials
 3. Install dependencies:
    ```bash
    cd scripts && npm install
@@ -74,11 +74,15 @@ npm --prefix scripts run cli -- list-accounts
 
 ## Configuration
 
-Copy `config.template.json` to `config.json` and fill in the required values:
+Copy `scripts/config.template.json` to `scripts/config.json` and fill in the required values:
 
 | Field | Placeholder |
 |-------|-------------|
-| `credentials_path` | `/path/to/your/credentials` |
+| `userEmail` | `you@example.com` |
+| `googleAnalytics.credentialsDir` | `/absolute/path/to/google-analytics-credentials` |
+| `googleAnalytics.defaultPropertyId` | `YOUR_GA4_PROPERTY_ID` |
+| `searchConsole.defaultSiteUrl` | `https://your-domain.example.com/` |
+| `merchantCenter.merchantId` | `YOUR_MERCHANT_CENTER_ID` |
 
 ## Available Commands
 

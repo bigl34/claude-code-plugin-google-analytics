@@ -1,6 +1,8 @@
 #!/usr/bin/env npx tsx
 
 import { z, createCommand, runCli, cliTypes } from "@local/cli-utils";
+import { realpathSync } from "node:fs";
+import { pathToFileURL } from "node:url";
 import { GoogleAnalyticsClient } from "./analytics-client.js";
 import { SearchConsoleClient } from "./search-console-client.js";
 import { MerchantCenterClient } from "./merchant-center-client.js";
@@ -52,7 +54,7 @@ const dimensionFilterSchema = z.string().transform((raw, ctx) => {
   return parsed as Record<string, unknown>;
 });
 
-const commands = {
+export const commands = {
   "cache-stats": createCommand(
     z.object({}),
     async (_args, clients: GoogleMarketingClients) => ({
@@ -84,12 +86,15 @@ const commands = {
     }),
     async (args, clients: GoogleMarketingClients) => {
       const key = args.key as string;
+      const invalidated = {
+        ga: clients.ga.invalidateCacheKey(key),
+        sc: clients.sc.invalidateCacheKey(key),
+        mc: clients.mc.invalidateCacheKey(key),
+      };
       return {
-        success:
-          clients.ga.invalidateCacheKey(key) ||
-          clients.sc.invalidateCacheKey(key) ||
-          clients.mc.invalidateCacheKey(key),
+        success: invalidated.ga || invalidated.sc || invalidated.mc,
         key,
+        invalidated,
       };
     },
     "Invalidate a specific cache key",
@@ -550,7 +555,9 @@ const commands = {
   ),
 };
 
-runCli(commands, GoogleMarketingClients, {
-  programName: "ga-cli",
-  description: "Google Analytics, Search Console, and Merchant Center",
-});
+if (process.argv[1] && import.meta.url === pathToFileURL(realpathSync(process.argv[1])).href) {
+  runCli(commands, GoogleMarketingClients, {
+    programName: "ga-cli",
+    description: "Google Analytics, Search Console, and Merchant Center",
+  });
+}

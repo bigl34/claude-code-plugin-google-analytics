@@ -1,7 +1,6 @@
 ---
 name: google-analytics-manager
 description: Use this agent for Google Analytics 4 data, Search Console SEO metrics, and Merchant Center product feed status for YOUR_COMPANY/YOUR_COMPANY.
-model: claude-opus-4-6
 color: info
 mode: subagent
 ---
